@@ -1,5 +1,8 @@
 require_relative "karabiner_ext.rb"
-KE = Karabiner
+KE = KarabinerEXT
+
+using KE
+extend KE
 
 def main
     rules = {}
@@ -17,53 +20,44 @@ def main
 end
 
 def caps_f20_fn_lazy
-    m = KE.manipulator
-    m.KE_from_key_(code: "caps_lock", modifiers: KE.from_modifiers(nil, ["any"]))
+    m = manipulator
+    m.from_key("caps_lock", any_modifiers)
     m["to"] = [{ "key_code": "fn", "lazy": true, }]
     m["to_if_alone"] = [{ "key_code": "f20" }]
     [m]
 end
 
 def fn_qwe_music_control
-    q = KE.manipulator
-    q.KE_from_key_(code: "q", modifiers: KE.from_modifiers(["fn"],nil))
-    q.KE_to_key_(code:"rewind")
-    w = KE.manipulator
-    w.KE_from_key_(code: "w", modifiers: KE.from_modifiers(["fn"],nil))
-    w.KE_to_key_(code:"play_or_pause")
-    e = KE.manipulator
-    e.KE_from_key_(code: "e", modifiers: KE.from_modifiers(["fn"],nil))
-    e.KE_to_key_(code:"fastforward")
+    fn = from_modifiers(["fn"],nil)
+    q = manipulator.from_key("q", fn).to("rewind")
+    w = manipulator.from_key("w", fn).to("play_or_pause")
+    e = manipulator.from_key("e", fn).to("fastforward")
     [q, w, e]
 end
 
 def fn_asd_volume_control
-    a = KE.manipulator
-    a.KE_from_key_(code: "a", modifiers: KE.from_modifiers(["fn"],nil))
-    a.KE_to_key_(code:"mute")
-    s = KE.manipulator
-    s.KE_from_key_(code: "s", modifiers: KE.from_modifiers(["fn"],["option","shift"]))
-    s.KE_to_key_(code:"volume_decrement")
-    d = KE.manipulator
-    d.KE_from_key_(code: "d", modifiers: KE.from_modifiers(["fn"],["option","shift"]))
-    d.KE_to_key_(code:"volume_increment")
+    fn = from_modifiers(["fn"],nil)
+    fn_opt_shift = from_modifiers(["fn"],["option","shift"])
+    a = manipulator.from_key("a", fn).to("mute")
+    s = manipulator.from_key("s", fn_opt_shift).to("volume_decrement")
+    d = manipulator.from_key("d", fn_opt_shift).to("volume_increment")
     [a, s, d]
 end
 
 def switch_left_cmd_opt
     switch = []
-    switch << KE.manipulator.KE_from_key_(code: "left_option", modifiers: KE.from_modifiers(nil, ["any"])).KE_to_key_(code:"left_command")
-    switch << KE.manipulator.KE_from_key_(code: "left_command", modifiers: KE.from_modifiers(nil, ["any"])).KE_to_key_(code:"left_option")
+    switch << manipulator.from_key("left_option", any_modifiers).to("left_command")
+    switch << manipulator.from_key("left_command", any_modifiers).to("left_option")
     switch
 end
 
 def grave_accent_esc_no_modifiers
-    m = KE.manipulator.KE_from_key_(code: "grave_accent_and_tilde").KE_to_key_(code:"escape")
+    m = manipulator.from_key("grave_accent_and_tilde").to("escape")
     [m]
 end
 
 def key_modifier_if_not_alone(from:,modifier:)
-    m = KE.manipulator.KE_from_key_(code: from, modifiers: KE.from_modifiers(nil, ["any"]))
+    m = manipulator.from_key(from, any_modifiers)
     m["to"] = [{ "key_code": modifier, "lazy": true, }]
     m["to_if_alone"] = [{ "key_code": from }]
     m["to_if_held_down"] = [{ "key_code": from }]
@@ -85,15 +79,15 @@ def update_conditions(manipulators, conditions)
     manipulators
 end
 
-RGB75_ID = KE.device_identifier(vendor_id: 1155, product_id: 20518, desc: "RGB75")
-PurePro_ID = KE.device_identifier(vendor_id: 3897, product_id: 1649, desc: "KBT Pure Pro")
+RGB75_ID = device_identifier(vendor_id: 1155, product_id: 20518, desc: "RGB75")
+PurePro_ID = device_identifier(vendor_id: 3897, product_id: 1649, desc: "KBT Pure Pro")
 
 def if_RGB75
-    KE.device_if(RGB75_ID)
+    device_if(RGB75_ID)
 end
 
 def if_PurePro
-    KE.device_if(PurePro_ID)
+    device_if(PurePro_ID)
 end
 
 def switch_RGB75_left_cmd_opt
@@ -109,7 +103,7 @@ def grave_accent_esc_if_PurePro
 end
 
 def delete_forward_grave_accent_if_PurePro
-    m = KE.manipulator.KE_from_key_(code: "delete_forward").KE_to_key_(code:"grave_accent_and_tilde")
+    m = manipulator.from_key("delete_forward").to("grave_accent_and_tilde")
     update_conditions([m], [if_PurePro])
 end
 
@@ -120,7 +114,7 @@ end
 def gen_rules(rules)
     result = []
     rules.each do |desc, manipulators|
-        result << KE.rule(desc: desc, manipulators: manipulators)
+        result << rule(desc: desc, manipulators: manipulators)
     end
     result
 end
