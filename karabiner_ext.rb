@@ -62,3 +62,12 @@ class Hash
         KE_to(to)
     end
 end
+
+module KarabinerEXT
+    def method_missing(m, *args, &block)
+        unless Karabiner.respond_to?(m)
+            super
+        end
+        Karabiner.send(m, *args, &block)
+    end
+end
