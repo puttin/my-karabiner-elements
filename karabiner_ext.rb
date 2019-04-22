@@ -70,4 +70,35 @@ module KarabinerEXT
         end
         Karabiner.send(m, *args, &block)
     end
+
+    refine Hash do
+        # method_missing won't work here https://bugs.ruby-lang.org/issues/13129
+
+        def from_key(code, modifiers = nil)
+            h = {
+                "key_code" => code,
+            }
+            h['modifiers'] = modifiers unless modifiers.nil?
+
+            from(h)
+        end
+
+        def from(from)
+            set("from",from)
+        end
+
+        def to_key(code)
+            h = [{ "key_code" => code }]
+            to(h)
+        end
+
+        def to(to)
+            set("to",to)
+        end
+
+        def set(key,value)
+            self[key] = value
+            self
+        end
+    end
 end
