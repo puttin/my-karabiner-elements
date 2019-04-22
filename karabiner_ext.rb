@@ -32,6 +32,10 @@ module Karabiner
             "identifiers" => identifiers,
         }
     end
+
+    def self.any_modifiers
+        from_modifiers(nil, ["any"])
+    end
 end
 
 class Hash
