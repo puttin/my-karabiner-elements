@@ -38,31 +38,6 @@ module Karabiner
     end
 end
 
-class Hash
-    def KE_from(from)
-        self["from"] = from
-        self
-    end
-
-    def KE_from_key_(code:, modifiers: nil)
-        from = {
-            "key_code" => code,
-        }
-        from['modifiers'] = modifiers unless modifiers.nil?
-        KE_from(from)
-    end
-
-    def KE_to(to)
-        self["to"] = to
-        self
-    end
-
-    def KE_to_key_(code:)
-        to = [{ "key_code" => code }]
-        KE_to(to)
-    end
-end
-
 module KarabinerEXT
     def method_missing(m, *args, &block)
         unless Karabiner.respond_to?(m)
