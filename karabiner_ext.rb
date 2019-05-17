@@ -63,7 +63,7 @@ module KarabinerEXT
         end
 
         def to_key(code)
-            h = [{ "key_code" => code }]
+            h = { "key_code" => code }
             to(h)
         end
 
