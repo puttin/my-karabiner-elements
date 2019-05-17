@@ -29,30 +29,30 @@ end
 
 def fn_qwe_music_control
     fn = from_modifiers(["fn"],nil)
-    q = manipulator.from_key("q", fn).to("rewind")
-    w = manipulator.from_key("w", fn).to("play_or_pause")
-    e = manipulator.from_key("e", fn).to("fastforward")
+    q = manipulator.from_key("q", fn).to_key("rewind")
+    w = manipulator.from_key("w", fn).to_key("play_or_pause")
+    e = manipulator.from_key("e", fn).to_key("fastforward")
     [q, w, e]
 end
 
 def fn_asd_volume_control
     fn = from_modifiers(["fn"],nil)
     fn_opt_shift = from_modifiers(["fn"],["option","shift"])
-    a = manipulator.from_key("a", fn).to("mute")
-    s = manipulator.from_key("s", fn_opt_shift).to("volume_decrement")
-    d = manipulator.from_key("d", fn_opt_shift).to("volume_increment")
+    a = manipulator.from_key("a", fn).to_key("mute")
+    s = manipulator.from_key("s", fn_opt_shift).to_key("volume_decrement")
+    d = manipulator.from_key("d", fn_opt_shift).to_key("volume_increment")
     [a, s, d]
 end
 
 def switch_left_cmd_opt
     switch = []
-    switch << manipulator.from_key("left_option", any_modifiers).to("left_command")
-    switch << manipulator.from_key("left_command", any_modifiers).to("left_option")
+    switch << manipulator.from_key("left_option", any_modifiers).to_key("left_command")
+    switch << manipulator.from_key("left_command", any_modifiers).to_key("left_option")
     switch
 end
 
 def grave_accent_esc_no_modifiers
-    m = manipulator.from_key("grave_accent_and_tilde").to("escape")
+    m = manipulator.from_key("grave_accent_and_tilde").to_key("escape")
     [m]
 end
 
@@ -103,7 +103,7 @@ def grave_accent_esc_if_PurePro
 end
 
 def delete_forward_grave_accent_if_PurePro
-    m = manipulator.from_key("delete_forward").to("grave_accent_and_tilde")
+    m = manipulator.from_key("delete_forward").to_key("grave_accent_and_tilde")
     update_conditions([m], [if_PurePro])
 end
 
