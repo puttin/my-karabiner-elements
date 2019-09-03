@@ -15,6 +15,7 @@ def main
     rules << rule("` to ESC when no modifier if Pure Pro", manipulators: grave_accent_esc_if_PurePro)
     rules << rule("Del to ` if Pure Pro", manipulators: delete_forward_grave_accent_if_PurePro)
     rules << rule("Arrows to Modifiers if not pressed alone and RGB75", manipulators: arrows_modifier_if_not_alone_and_RGB75)
+    rules << rule("Change control + mouse motion to scroll wheel", manipulators: ctrl_mouse_scroll_wheel, available_since: "12.3.0")
 
     rules
 end
@@ -109,6 +110,13 @@ end
 
 def arrows_modifier_if_not_alone_and_RGB75
     update_conditions(arrows_modifier_if_not_alone, [if_RGB75])
+end
+
+# from https://github.com/pqrs-org/KE-complex_modifications/blob/master/src/json/mouse_motion_to_scroll.json.rb
+def ctrl_mouse_scroll_wheel
+    ctrl = modifiers(["control"], nil)
+    m = manipulator("mouse_motion_to_scroll").from_modifiers(ctrl)
+    [m]
 end
 
 require "json"
