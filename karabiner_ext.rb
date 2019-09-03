@@ -8,9 +8,9 @@ module Karabiner
         }
     end
 
-    def self.manipulator
+    def self.manipulator(type = "basic")
         h = {
-            "type" => "basic",
+            "type" => type,
         }
     end
 
