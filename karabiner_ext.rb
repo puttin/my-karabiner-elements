@@ -65,6 +65,14 @@ module KarabinerEXT
             from(h)
         end
 
+        def from_modifiers(modifiers)
+            h = {
+                'modifiers' => modifiers
+            }
+
+            from(h)
+        end
+
         def from(from)
             set("from",from)
         end
