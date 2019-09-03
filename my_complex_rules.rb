@@ -5,18 +5,18 @@ using KE
 extend KE
 
 def main
-    rules = {}
+    rules = []
 
-    rules["Post F20 if caps is pressed alone, FN otherwise"] = caps_f20_fn_lazy
-    rules["FN + QWE to Music Control"] = fn_qwe_music_control
-    rules["FN + ASD to Volume Control"] = fn_asd_volume_control
-    rules["Switch Command And Option if RGB75"] = switch_RGB75_left_cmd_opt
-    rules["Switch Command And Option if Pure Pro"] = switch_PurePro_left_cmd_opt
-    rules["` to ESC when no modifier if Pure Pro"] = grave_accent_esc_if_PurePro
-    rules["Del to ` if Pure Pro"] = delete_forward_grave_accent_if_PurePro
-    rules["Arrows to Modifiers if not pressed alone and RGB75"] = arrows_modifier_if_not_alone_and_RGB75
+    rules << rule("Post F20 if caps is pressed alone, FN otherwise", manipulators: caps_f20_fn_lazy)
+    rules << rule("FN + QWE to Music Control", manipulators: fn_qwe_music_control)
+    rules << rule("FN + ASD to Volume Control", manipulators: fn_asd_volume_control)
+    rules << rule("Switch Command And Option if RGB75", manipulators: switch_RGB75_left_cmd_opt)
+    rules << rule("Switch Command And Option if Pure Pro", manipulators: switch_PurePro_left_cmd_opt)
+    rules << rule("` to ESC when no modifier if Pure Pro", manipulators: grave_accent_esc_if_PurePro)
+    rules << rule("Del to ` if Pure Pro", manipulators: delete_forward_grave_accent_if_PurePro)
+    rules << rule("Arrows to Modifiers if not pressed alone and RGB75", manipulators: arrows_modifier_if_not_alone_and_RGB75)
 
-    gen_rules(rules)
+    rules
 end
 
 def caps_f20_fn_lazy
@@ -109,14 +109,6 @@ end
 
 def arrows_modifier_if_not_alone_and_RGB75
     update_conditions(arrows_modifier_if_not_alone, [if_RGB75])
-end
-
-def gen_rules(rules)
-    result = []
-    rules.each do |desc, manipulators|
-        result << rule(desc: desc, manipulators: manipulators)
-    end
-    result
 end
 
 require "json"

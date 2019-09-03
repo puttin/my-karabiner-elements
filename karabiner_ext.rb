@@ -1,11 +1,15 @@
 require_relative 'karabiner.rb'
 
 module Karabiner
-    def self.rule(manipulators:, desc:)
+    def self.rule(desc, manipulators:, **extra)
         h = {
             "description" => desc,
             "manipulators" => manipulators,
         }
+        if extra.is_a?(Hash)
+            h.merge!(extra)
+        end
+        h
     end
 
     def self.manipulator(type = "basic")
