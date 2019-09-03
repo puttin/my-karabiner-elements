@@ -4,7 +4,7 @@ KE = KarabinerEXT
 using KE
 extend KE
 
-def main
+def my_complex_rules
     rules = []
 
     rules << rule("Post F20 if caps is pressed alone, FN otherwise", manipulators: caps_f20_fn_lazy)
@@ -135,5 +135,7 @@ def pointing_button_mouse_scroll_wheel_if_alone(button = "button4")
     [variable, m]
 end
 
-require "json"
-puts JSON.pretty_generate(main, {:indent => "    "})
+if __FILE__ == $0
+    require "json"
+    puts JSON.pretty_generate(my_complex_rules, {:indent => "    "})
+end
