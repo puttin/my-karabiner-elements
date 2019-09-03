@@ -15,7 +15,9 @@ def main
     rules << rule("` to ESC when no modifier if Pure Pro", manipulators: grave_accent_esc_if_PurePro)
     rules << rule("Del to ` if Pure Pro", manipulators: delete_forward_grave_accent_if_PurePro)
     rules << rule("Arrows to Modifiers if not pressed alone and RGB75", manipulators: arrows_modifier_if_not_alone_and_RGB75)
+    # for trackball
     rules << rule("Change control + mouse motion to scroll wheel", manipulators: ctrl_mouse_scroll_wheel, available_since: "12.3.0")
+    rules << rule("Change button4 + mouse motion to scroll wheel if pressed alone", manipulators: pointing_button_mouse_scroll_wheel_if_alone, available_since: "12.3.0")
 
     rules
 end
@@ -117,6 +119,20 @@ def ctrl_mouse_scroll_wheel
     ctrl = modifiers(["control"], nil)
     m = manipulator("mouse_motion_to_scroll").from_modifiers(ctrl)
     [m]
+end
+
+def pointing_button_mouse_scroll_wheel_if_alone(button = "button4")
+    key = 'enable_mouse_motion_to_scroll'
+
+    from = {pointing_button: button, modifiers: any_modifiers}
+    variable = manipulator.from(from).to(set_variable(key, 1))
+    variable['to_if_alone'] = {pointing_button: button}
+    variable['to_after_key_up'] = set_variable(key, 0)
+
+    m = manipulator("mouse_motion_to_scroll").from_modifiers(any_modifiers)
+    m['conditions'] = [variable_if(key, 1)]
+
+    [variable, m]
 end
 
 require "json"
