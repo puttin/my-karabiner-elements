@@ -37,8 +37,11 @@ module Karabiner
         }
     end
 
+    class << self
+        alias modifiers from_modifiers
+    end
     def self.any_modifiers
-        from_modifiers(nil, ["any"])
+        modifiers(nil, ["any"])
     end
 end
 

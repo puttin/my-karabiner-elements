@@ -28,7 +28,7 @@ def caps_f20_fn_lazy
 end
 
 def fn_qwe_music_control
-    fn = from_modifiers(["fn"],nil)
+    fn = modifiers(["fn"],nil)
     q = manipulator.from_key("q", fn).to_key("rewind")
     w = manipulator.from_key("w", fn).to_key("play_or_pause")
     e = manipulator.from_key("e", fn).to_key("fastforward")
@@ -36,8 +36,8 @@ def fn_qwe_music_control
 end
 
 def fn_asd_volume_control
-    fn = from_modifiers(["fn"],nil)
-    fn_opt_shift = from_modifiers(["fn"],["option","shift"])
+    fn = modifiers(["fn"],nil)
+    fn_opt_shift = modifiers(["fn"],["option","shift"])
     a = manipulator.from_key("a", fn).to_key("mute")
     s = manipulator.from_key("s", fn_opt_shift).to_key("volume_decrement")
     d = manipulator.from_key("d", fn_opt_shift).to_key("volume_increment")
