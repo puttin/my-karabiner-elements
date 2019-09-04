@@ -12,7 +12,7 @@ def my_complex_rules
     rules << rule("FN + ASD to Volume Control", manipulators: fn_asd_volume_control)
     rules << rule("Switch Command And Option if RGB75", manipulators: switch_RGB75_left_cmd_opt)
     rules << rule("Switch Command And Option if Pure Pro", manipulators: switch_PurePro_left_cmd_opt)
-    rules << rule("` to ESC when no modifier if Pure Pro", manipulators: grave_accent_esc_if_PurePro)
+    rules << rule("` to ESC when no modifier if Pure Pro", manipulators: grave_accent_esc_if_PurePro, comment: 'use simple modifications to modify escape to grave_accent_and_tilde first')
     rules << rule("Del to ` if Pure Pro", manipulators: delete_forward_grave_accent_if_PurePro)
     rules << rule("Arrows to Modifiers if not pressed alone and RGB75", manipulators: arrows_modifier_if_not_alone_and_RGB75)
     # for trackball
