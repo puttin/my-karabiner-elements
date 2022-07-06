@@ -10,11 +10,13 @@ def my_complex_rules
     rules << rule("Post F20 if caps is pressed alone, FN otherwise", manipulators: caps_f20_fn_lazy)
     rules << rule("FN + QWE to Music Control", manipulators: fn_qwe_music_control)
     rules << rule("FN + ASD to Volume Control", manipulators: fn_asd_volume_control)
+    # for RGB75
     rules << rule("Switch Command And Option if RGB75", manipulators: switch_RGB75_left_cmd_opt)
+    rules << rule("Arrows to Modifiers if not pressed alone and RGB75", manipulators: arrows_modifier_if_not_alone_and_RGB75)
+    # for Pure Pro
     rules << rule("Switch Command And Option if Pure Pro", manipulators: switch_PurePro_left_cmd_opt)
     rules << rule("` to ESC when no modifier if Pure Pro", manipulators: grave_accent_esc_if_PurePro, comment: 'use simple modifications to modify escape to grave_accent_and_tilde first')
     rules << rule("Del to ` if Pure Pro", manipulators: delete_forward_grave_accent_if_PurePro)
-    rules << rule("Arrows to Modifiers if not pressed alone and RGB75", manipulators: arrows_modifier_if_not_alone_and_RGB75)
     # for trackball
     rules << rule("Change control + mouse motion to scroll wheel", manipulators: ctrl_mouse_scroll_wheel, available_since: "12.3.0")
     rules << rule("Change button4 + mouse motion to scroll wheel if pressed alone", manipulators: pointing_button_mouse_scroll_wheel_if_alone, available_since: "12.3.0")
