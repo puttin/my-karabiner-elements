@@ -77,8 +77,11 @@ module KarabinerEXT
             set("from",from)
         end
 
-        def to_key(code)
+        def to_key(code, **extra)
             h = { "key_code" => code }
+            if extra.is_a?(Hash)
+                h.merge!(extra)
+            end
             to(h)
         end
 

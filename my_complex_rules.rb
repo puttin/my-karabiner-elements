@@ -27,7 +27,7 @@ end
 def caps_f20_fn_lazy
     m = manipulator
     m.from_key("caps_lock", any_modifiers)
-    m["to"] = { "key_code": "fn", "lazy": true, }
+    m.to_key("fn", lazy: true)
     m["to_if_alone"] = { "key_code": "f20" }
     [m]
 end
@@ -63,7 +63,7 @@ end
 
 def key_modifier_if_not_alone(from:,modifier:)
     m = manipulator.from_key(from, any_modifiers)
-    m["to"] = { "key_code": modifier, "lazy": true, }
+    m.to_key(modifier, lazy: true)
     m["to_if_alone"] = { "key_code": from }
     m["to_if_held_down"] = { "key_code": from }
     m
