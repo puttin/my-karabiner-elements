@@ -120,7 +120,7 @@ module KarabinerEXT
             set("to_if_alone", v)
         end
 
-        def virtual_modifier(key)
+        def to_virtual_modifier(key)
             to([Karabiner.set_variable(key, 1)])
             set("to_after_key_up", [Karabiner.set_variable(key, 0)])
         end

@@ -27,7 +27,7 @@ end
 def caps_f20_alone_meta_otherwise
     m = manipulator
     m.from_key("caps_lock", any_modifiers)
-    m.virtual_modifier "meta"
+    m.to_virtual_modifier "meta"
     m.to_if_alone "f20"
     [m]
 end
@@ -129,7 +129,7 @@ def pointing_button_mouse_scroll_wheel_if_alone(button = "button4")
     from = {pointing_button: button, modifiers: any_modifiers}
     variable = manipulator.from(from)
     variable.to_if_alone({pointing_button: button})
-    variable.virtual_modifier(key)
+    variable.to_virtual_modifier(key)
 
     m = manipulator("mouse_motion_to_scroll").from_modifiers(any_modifiers)
     m.conditions virtual_modifier_if(key)
