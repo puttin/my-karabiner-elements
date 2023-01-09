@@ -79,7 +79,7 @@ end
 
 def update_conditions(manipulators, conditions)
     manipulators.each do |m|
-        m["conditions"] = conditions
+        m.conditions(conditions)
     end
     manipulators
 end
@@ -96,24 +96,24 @@ def if_PurePro
 end
 
 def switch_RGB75_left_cmd_opt
-    update_conditions(switch_left_cmd_opt, [if_RGB75])
+    update_conditions(switch_left_cmd_opt, if_RGB75)
 end
 
 def switch_PurePro_left_cmd_opt
-    update_conditions(switch_left_cmd_opt, [if_PurePro])
+    update_conditions(switch_left_cmd_opt, if_PurePro)
 end
 
 def grave_accent_esc_if_PurePro
-    update_conditions(grave_accent_esc_no_modifiers, [if_PurePro])
+    update_conditions(grave_accent_esc_no_modifiers, if_PurePro)
 end
 
 def delete_forward_grave_accent_if_PurePro
     m = manipulator.from_key("delete_forward").to_key("grave_accent_and_tilde")
-    update_conditions([m], [if_PurePro])
+    update_conditions([m], if_PurePro)
 end
 
 def arrows_modifier_if_not_alone_and_RGB75
-    update_conditions(arrows_modifier_if_not_alone, [if_RGB75])
+    update_conditions(arrows_modifier_if_not_alone, if_RGB75)
 end
 
 # from https://github.com/pqrs-org/KE-complex_modifications/blob/master/src/json/mouse_motion_to_scroll.json.rb
@@ -132,7 +132,7 @@ def pointing_button_mouse_scroll_wheel_if_alone(button = "button4")
     variable['to_after_key_up'] = set_variable(key, 0)
 
     m = manipulator("mouse_motion_to_scroll").from_modifiers(any_modifiers)
-    m['conditions'] = [variable_if(key, 1)]
+    m.conditions variable_if(key, 1)
 
     [variable, m]
 end

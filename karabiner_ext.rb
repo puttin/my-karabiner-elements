@@ -93,5 +93,15 @@ module KarabinerEXT
             self[key] = value
             self
         end
+
+        def conditions(conditions)
+            v = nil
+            if conditions.is_a?(Array)
+                v = conditions
+            else
+                v = [conditions]
+            end
+            set("conditions", v)
+        end
     end
 end
