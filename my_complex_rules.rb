@@ -7,9 +7,9 @@ extend KE
 def my_complex_rules
     rules = []
 
-    rules << rule("Post F20 if caps is pressed alone, FN otherwise", manipulators: caps_f20_fn_lazy)
-    rules << rule("FN + QWE to Music Control", manipulators: fn_qwe_music_control)
-    rules << rule("FN + ASD to Volume Control", manipulators: fn_asd_volume_control)
+    rules << rule("Post F20 if caps is pressed alone, Meta otherwise", manipulators: caps_f20_alone_meta_otherwise)
+    rules << rule("Meta + QWE to Music Control", manipulators: meta_qwe_music_control)
+    rules << rule("Meta + ASD to Volume Control", manipulators: meta_asd_volume_control)
     # for RGB75
     rules << rule("Switch Command And Option if RGB75", manipulators: switch_RGB75_left_cmd_opt)
     rules << rule("Arrows to Modifiers if not pressed alone and RGB75", manipulators: arrows_modifier_if_not_alone_and_RGB75)
@@ -24,29 +24,29 @@ def my_complex_rules
     rules
 end
 
-def caps_f20_fn_lazy
+def caps_f20_alone_meta_otherwise
     m = manipulator
     m.from_key("caps_lock", any_modifiers)
-    m.to_key("fn", lazy: true)
+    m.virtual_modifier "meta"
     m.to_if_alone "f20"
     [m]
 end
 
-def fn_qwe_music_control
-    fn = modifiers(["fn"],nil)
-    q = manipulator.from_key("q", fn).to_key("rewind")
-    w = manipulator.from_key("w", fn).to_key("play_or_pause")
-    e = manipulator.from_key("e", fn).to_key("fastforward")
-    [q, w, e]
+def meta_qwe_music_control
+    meta = virtual_modifier_if "meta"
+    q = manipulator.from_key("q").to_key("rewind")
+    w = manipulator.from_key("w").to_key("play_or_pause")
+    e = manipulator.from_key("e").to_key("fastforward")
+    update_conditions([q, w, e], meta)
 end
 
-def fn_asd_volume_control
-    fn = modifiers(["fn"],nil)
-    fn_opt_shift = modifiers(["fn"],["option","shift"])
-    a = manipulator.from_key("a", fn).to_key("mute")
-    s = manipulator.from_key("s", fn_opt_shift).to_key("volume_decrement")
-    d = manipulator.from_key("d", fn_opt_shift).to_key("volume_increment")
-    [a, s, d]
+def meta_asd_volume_control
+    meta = virtual_modifier_if "meta"
+    opt_shift = modifiers([],["option","shift"])
+    a = manipulator.from_key("a").to_key("mute")
+    s = manipulator.from_key("s", opt_shift).to_key("volume_decrement")
+    d = manipulator.from_key("d", opt_shift).to_key("volume_increment")
+    update_conditions([a, s, d], meta)
 end
 
 def switch_left_cmd_opt
