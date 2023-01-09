@@ -29,24 +29,21 @@ def caps_f20_alone_meta_otherwise
     m.from_key("caps_lock", any_modifiers)
     m.to_virtual_modifier "meta"
     m.to_if_alone "f20"
-    [m]
 end
 
 def meta_qwe_music_control
-    meta = virtual_modifier_if "meta"
     q = manipulator.from_key("q").to_key("rewind")
     w = manipulator.from_key("w").to_key("play_or_pause")
     e = manipulator.from_key("e").to_key("fastforward")
-    update_conditions([q, w, e], meta)
+    [q, w, e].if? virtual_modifier_is "meta"
 end
 
 def meta_asd_volume_control
-    meta = virtual_modifier_if "meta"
     opt_shift = modifiers([],["option","shift"])
     a = manipulator.from_key("a").to_key("mute")
     s = manipulator.from_key("s", opt_shift).to_key("volume_decrement")
     d = manipulator.from_key("d", opt_shift).to_key("volume_increment")
-    update_conditions([a, s, d], meta)
+    [a, s, d].if? virtual_modifier_is "meta"
 end
 
 def switch_left_cmd_opt
@@ -58,7 +55,7 @@ end
 
 def grave_accent_esc_no_modifiers
     m = manipulator.from_key("grave_accent_and_tilde").to_key("escape")
-    [m]
+    m
 end
 
 def key_modifier_if_not_alone(from:,modifier:)
@@ -77,13 +74,6 @@ def arrows_modifier_if_not_alone
     [up, left, down, right]
 end
 
-def update_conditions(manipulators, conditions)
-    manipulators.each do |m|
-        m.conditions(conditions)
-    end
-    manipulators
-end
-
 RGB75_ID = device_identifier(vendor_id: 1155, product_id: 20518, desc: "RGB75")
 PurePro_ID = device_identifier(vendor_id: 3897, product_id: 1649, desc: "KBT Pure Pro")
 
@@ -96,31 +86,31 @@ def if_PurePro
 end
 
 def switch_RGB75_left_cmd_opt
-    update_conditions(switch_left_cmd_opt, if_RGB75)
+    switch_left_cmd_opt.if? if_RGB75
 end
 
 def switch_PurePro_left_cmd_opt
-    update_conditions(switch_left_cmd_opt, if_PurePro)
+    switch_left_cmd_opt.if? if_PurePro
 end
 
 def grave_accent_esc_if_PurePro
-    update_conditions(grave_accent_esc_no_modifiers, if_PurePro)
+    grave_accent_esc_no_modifiers.if? if_PurePro
 end
 
 def delete_forward_grave_accent_if_PurePro
     m = manipulator.from_key("delete_forward").to_key("grave_accent_and_tilde")
-    update_conditions([m], if_PurePro)
+    m.if? if_PurePro
 end
 
 def arrows_modifier_if_not_alone_and_RGB75
-    update_conditions(arrows_modifier_if_not_alone, if_RGB75)
+    arrows_modifier_if_not_alone.if? if_RGB75
 end
 
 # from https://github.com/pqrs-org/KE-complex_modifications/blob/master/src/json/mouse_motion_to_scroll.json.rb
 def ctrl_mouse_scroll_wheel
     ctrl = modifiers(["control"], nil)
     m = manipulator("mouse_motion_to_scroll").from_modifiers(ctrl)
-    [m]
+    m
 end
 
 def pointing_button_mouse_scroll_wheel_if_alone(button = "button4")
@@ -132,7 +122,7 @@ def pointing_button_mouse_scroll_wheel_if_alone(button = "button4")
     variable.to_virtual_modifier(key)
 
     m = manipulator("mouse_motion_to_scroll").from_modifiers(any_modifiers)
-    m.conditions virtual_modifier_if(key)
+    m.if? virtual_modifier_is key
 
     [variable, m]
 end

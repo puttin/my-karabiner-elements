@@ -2,9 +2,15 @@ require_relative 'karabiner.rb'
 
 module Karabiner
     def self.rule(desc, manipulators:, **extra)
+        m = nil
+        if manipulators.is_a?(Array)
+            m = manipulators
+        else
+            m = [manipulators]
+        end
         h = {
             "description" => desc,
-            "manipulators" => manipulators,
+            "manipulators" => m,
         }
         if extra.is_a?(Hash)
             h.merge!(extra)
@@ -37,7 +43,7 @@ module Karabiner
         }
     end
 
-    def self.virtual_modifier_if(key)
+    def self.virtual_modifier_is(key)
         variable_if(key, 1)
     end
 
@@ -55,6 +61,15 @@ module KarabinerEXT
             super
         end
         Karabiner.send(m, *args, &block)
+    end
+
+    refine Array do
+        def if?(conditions)
+            self.each do |m|
+                m.if?(conditions)
+            end
+            self
+        end
     end
 
     refine Hash do
@@ -98,7 +113,7 @@ module KarabinerEXT
             self
         end
 
-        def conditions(conditions)
+        def if?(conditions)
             v = nil
             if conditions.is_a?(Array)
                 v = conditions
