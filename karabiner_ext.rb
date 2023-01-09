@@ -37,6 +37,10 @@ module Karabiner
         }
     end
 
+    def self.virtual_modifier_if(key)
+        variable_if(key, 1)
+    end
+
     class << self
         alias modifiers from_modifiers
     end

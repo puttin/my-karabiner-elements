@@ -132,7 +132,7 @@ def pointing_button_mouse_scroll_wheel_if_alone(button = "button4")
     variable.virtual_modifier(key)
 
     m = manipulator("mouse_motion_to_scroll").from_modifiers(any_modifiers)
-    m.conditions variable_if(key, 1)
+    m.conditions virtual_modifier_if(key)
 
     [variable, m]
 end
