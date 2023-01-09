@@ -127,9 +127,9 @@ def pointing_button_mouse_scroll_wheel_if_alone(button = "button4")
     key = 'enable_mouse_motion_to_scroll'
 
     from = {pointing_button: button, modifiers: any_modifiers}
-    variable = manipulator.from(from).to(set_variable(key, 1))
+    variable = manipulator.from(from)
     variable.to_if_alone({pointing_button: button})
-    variable['to_after_key_up'] = set_variable(key, 0)
+    variable.virtual_modifier(key)
 
     m = manipulator("mouse_motion_to_scroll").from_modifiers(any_modifiers)
     m.conditions variable_if(key, 1)
