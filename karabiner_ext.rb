@@ -103,5 +103,17 @@ module KarabinerEXT
             end
             set("conditions", v)
         end
+
+        def to_if_alone(to_if_alone)
+            v = nil
+            if to_if_alone.is_a?(Hash)
+                v = to_if_alone
+            elsif to_if_alone.is_a?(String)
+                v = {key_code: to_if_alone}
+            else
+                raise "#{__method__} arg invalid"
+            end
+            set("to_if_alone", v)
+        end
     end
 end

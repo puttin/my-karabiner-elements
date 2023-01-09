@@ -28,7 +28,7 @@ def caps_f20_fn_lazy
     m = manipulator
     m.from_key("caps_lock", any_modifiers)
     m.to_key("fn", lazy: true)
-    m["to_if_alone"] = { "key_code": "f20" }
+    m.to_if_alone "f20"
     [m]
 end
 
@@ -64,7 +64,7 @@ end
 def key_modifier_if_not_alone(from:,modifier:)
     m = manipulator.from_key(from, any_modifiers)
     m.to_key(modifier, lazy: true)
-    m["to_if_alone"] = { "key_code": from }
+    m.to_if_alone from
     m["to_if_held_down"] = { "key_code": from }
     m
 end
@@ -128,7 +128,7 @@ def pointing_button_mouse_scroll_wheel_if_alone(button = "button4")
 
     from = {pointing_button: button, modifiers: any_modifiers}
     variable = manipulator.from(from).to(set_variable(key, 1))
-    variable['to_if_alone'] = {pointing_button: button}
+    variable.to_if_alone({pointing_button: button})
     variable['to_after_key_up'] = set_variable(key, 0)
 
     m = manipulator("mouse_motion_to_scroll").from_modifiers(any_modifiers)
