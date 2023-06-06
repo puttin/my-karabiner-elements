@@ -41,7 +41,7 @@
   simple_modifications:
     - from: { key_code: delete_forward }
       to: { key_code: f19 }
-# PurePro
+# KBTalking PurePro
 - identifiers:
     is_keyboard: true
     is_pointing_device: false
