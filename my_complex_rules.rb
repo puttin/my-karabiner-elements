@@ -17,6 +17,8 @@ def my_complex_rules
     rules << rule("Switch Command And Option if Pure Pro", manipulators: switch_PurePro_left_cmd_opt)
     rules << rule("` to ESC when no modifier if Pure Pro", manipulators: grave_accent_esc_if_PurePro, comment: 'use simple modifications to modify escape to grave_accent_and_tilde first')
     rules << rule("Del to ` if Pure Pro", manipulators: delete_forward_grave_accent_if_PurePro)
+    # for Q1 Pro
+    rules << rule("Power to ⌃⌘Q (Lock Screen) if Q1 Pro", manipulators:power_ctrl_cmd_q.if?(if_Q1Pro))
     # for trackball
     rules << rule("Change control + mouse motion to scroll wheel", manipulators: ctrl_mouse_scroll_wheel, available_since: "12.3.0")
     rules << rule("Change button4 + mouse motion to scroll wheel if pressed alone", manipulators: pointing_button_mouse_scroll_wheel_if_alone, available_since: "12.3.0")
@@ -58,6 +60,10 @@ def grave_accent_esc_no_modifiers
     m
 end
 
+def power_ctrl_cmd_q
+    manipulator.from_key("power").to_key("q", modifiers: ["control", "command"])
+end
+
 def key_modifier_if_not_alone(from:,modifier:)
     m = manipulator.from_key(from, any_modifiers)
     m.to_key(modifier, lazy: true)
@@ -76,6 +82,7 @@ end
 
 RGB75_ID = device_identifier(vendor_id: 1155, product_id: 20518, desc: "RGB75")
 PurePro_ID = device_identifier(vendor_id: 3897, product_id: 1649, desc: "KBT Pure Pro")
+Q1Pro_ID = device_identifier(vendor_id: 13364, product_id: 1552, desc: "Keychron Q1 Pro")
 
 def if_RGB75
     device_if(RGB75_ID)
@@ -83,6 +90,10 @@ end
 
 def if_PurePro
     device_if(PurePro_ID)
+end
+
+def if_Q1Pro
+    device_if(Q1Pro_ID)
 end
 
 def switch_RGB75_left_cmd_opt
